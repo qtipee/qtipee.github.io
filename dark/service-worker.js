@@ -52,9 +52,9 @@ self.addEventListener('activate', (evt) =>
 });
 
 // « Cache falling back to the network » approach
-self.addEventListener('fetch', (evt) =>
+self.addEventListener('fetch', (event) =>
 {
-    console.log('[ServiceWorker] Fetch', evt.request.url);
+    console.log('[ServiceWorker] Fetch', event.request.url);
 
     event.respondWith(
         caches.open(AUDIO_CACHE_NAME).then(function(cache) {
