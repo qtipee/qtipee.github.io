@@ -56,6 +56,17 @@ self.addEventListener('fetch', (evt) =>
 {
     console.log('[ServiceWorker] Fetch', evt.request.url);
 
+    event.respondWith(
+    caches.open(AUDIO_CACHE_NAME).then(function(cache) {
+      return cache.match(event.request).then(function (response) {
+        return response || fetch(event.request).then(function(response) {
+          cache.put(event.request, response.clone());
+          return response;
+        });
+      });
+    })
+  );
+/*
     evt.respondWith(
         caches.match(evt.request)
             // From cache if present ; fetch otherwise
@@ -69,4 +80,5 @@ self.addEventListener('fetch', (evt) =>
                 console.log('Could not fetch request', evt.request.url);
             })
     );
+    */
 });
